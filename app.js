@@ -17,6 +17,8 @@ app.use(express.urlencoded( {extended : false } ));
 app.use(localsMiddleware);
 
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("static"));
+app.use("/test", express.static("test"));
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
