@@ -3,5 +3,11 @@ extends layouts/main
 block content
     .user-profile
         .user-profile__header
-            img.avatar(src=user.avatarUrl)
+            img.u-avatar(src=`${user.avatarUrl ? user.avatarUrl : "https://e7.pngegg.com/pngimages/981/645/png-clipart-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette.png"}`)
             h4.profile__username=user.name
+        if user.id === loggedUser.id
+            .user-profile__btns
+                a(href=`/users${routes.editProfile}`)
+                    button Edit Profile
+                a(href=`/users${routes.changePassword}`)
+                    button Change Password

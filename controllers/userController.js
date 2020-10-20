@@ -14,7 +14,8 @@ export const postJoin = async (req, res, next) => {
         try {
             const user = await User({
                 name,
-                email
+                email,
+                avatarUrl: "/static/avatar/defaultProfile.jpg"
             });
             await User.register(user, password);
             next();
@@ -34,6 +35,7 @@ export const postLogin = passport.authenticate("local", {
 });
 
 export const logout = (req, res) => {
+    req.logout();
     res.redirect(routes.home);
 };
 
@@ -50,9 +52,28 @@ export const userDetail = async (req, res) => {
         res.redirect(routes.home);
     }
 };
-export const editProfile = (req, res) => {
+
+export const getEditProfile = (req, res) => {
     res.render("editProfile", { pageTitle:"Edit Profile" });
 };
-export const changePassword = (req, res) => {
+export const postEditProfile = async (req, res) => {
+    const {
+        body:{ name, email },
+        file
+    } = req;
+    try{
+        await User.findByIdAndUpdate(req.user.id, {
+            name,
+            email,
+            avatarUrl: file ? `/${file.path}` : req.user.avatarUrl
+        });
+        res.redirect(routes.userDetail(req.user.id));
+    } catch (error) {
+        console.log(error);
+        res.render("editProfile", { pageTitle: "Edit Profile" });
+    }
+};
+
+export const getChangePassword = (req, res) => {
     res.render("changePassword", { pageTitle:"Change Password" });
 };
