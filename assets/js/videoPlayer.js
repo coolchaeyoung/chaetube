@@ -30,10 +30,11 @@ const handlePlayBtn = () => {
 
 const handleVolumeClick = () => {
     if (videoPlayer.muted) {
+        volumeRange.value = videoPlayer.volume;
         videoPlayer.muted = false;
         volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
     } else {
-        volumeRange.
+        volumeRange.value = 0;
         videoPlayer.muted = true;
         volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
