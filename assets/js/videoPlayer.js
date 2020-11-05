@@ -7,6 +7,13 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
 
+const registerView = () => {
+    const videoId = window.location.href.split("/videos/")[1];
+    fetch(`/api/${videoId}/view`, {
+        method: "POST"
+    });
+};
+
 const formDate = time => {
     const totalTime = parseInt(time);
     let hours = Math.floor(totalTime / 3600);
@@ -65,6 +72,7 @@ const setTotalTime = () => {
 }
 
 const handleEnded = () => {
+    registerView();
     playBtn.innerHTML = '<i class="fas fa-redo"></i>';
 }
 

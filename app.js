@@ -3,12 +3,14 @@ import morgan from "morgan"
 import helmet from "helmet";
 import passport from "passport";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import connectMongo from "connect-mongo";
 import mongoose from "mongoose";
 import "./passport";
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
 
@@ -25,6 +27,7 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded( {extended : false } ));
 app.use(passport.initialize());
@@ -37,5 +40,6 @@ app.use("/static", express.static("static"));
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;
